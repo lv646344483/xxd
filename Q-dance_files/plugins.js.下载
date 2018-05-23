@@ -1,0 +1,51 @@
+// Avoid `console` errors in browsers that lack a console.
+(function() {
+    var method;
+    var noop = function () {};
+    var methods = [
+        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+        'timeStamp', 'trace', 'warn'
+    ];
+    var length = methods.length;
+    var console = (window.console = window.console || {});
+
+    while (length--) {
+        method = methods[length];
+
+        // Only stub undefined methods.
+        if (!console[method]) {
+            console[method] = noop;
+        }
+    }
+    
+    // Helper function, used below.
+	// Usage: ['img1.jpg','img2.jpg'].remove('img1.jpg');
+	Array.prototype.remove = function(element) {
+	  for (var i = 0; i < this.length; i++) {
+		if (this[i] == element) { this.splice(i,1); }
+	  }
+	};
+	        
+	// Usage: $(['img1.jpg','img2.jpg']).preloadImages(function(){ ... });
+	// Callback function gets called after all images are preloaded
+	$.fn.preloadImages = function(callback,callbackprogress) {
+	  checklist = this.toArray();
+      
+      var totalFiles = checklist.length;
+      var progress = 0;
+	  this.each(function() {
+		$('<img>').load(function() {
+		  checklist.remove($(this).attr('src'));
+          
+          progress++;
+          callbackprogress(progress,totalFiles);
+          if ((checklist.length == 0) || (progress >= totalFiles)) { callback(); }
+          
+		}).error(function() {console.log("error");progress++;}).attr({ src: this });
+	  });
+	};    
+}());
+
+// Place any jQuery/helper plugins in here.

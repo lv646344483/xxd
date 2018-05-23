@@ -1,0 +1,119 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?f0dj08');
+  src:  url('../fonts/icomoon.eot?f0dj08#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?f0dj08') format('truetype'),
+    url('../fonts/icomoon.woff?f0dj08') format('woff'),
+    url('../fonts/icomoon.svg?f0dj08#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-deezer:before {
+  content: "\e900";
+}
+.icon-play:before {
+  content: "\e600";
+}
+.icon-youtube:before {
+  content: "\e601";
+}
+.icon-playtrailer:before {
+  content: "\e602";
+}
+.icon-video:before {
+  content: "\e603";
+}
+.icon-play-circle:before {
+  content: "\e604";
+}
+.icon-audio:before {
+  content: "\e605";
+}
+.icon-fotos:before {
+  content: "\e606";
+}
+.icon-news:before {
+  content: "\e607";
+}
+.icon-ticket:before {
+  content: "\e608";
+}
+.icon-star:before {
+  content: "\e609";
+}
+.icon-google-plus:before {
+  content: "\e60a";
+}
+.icon-facebook:before {
+  content: "\e60b";
+}
+.icon-twitter:before {
+  content: "\e60c";
+}
+.icon-instagram:before {
+  content: "\e610";
+}
+.icon-scrolldown:before {
+  content: "\e611";
+}
+.icon-close:before {
+  content: "\e612";
+}
+.icon-user:before {
+  content: "\e800";
+}
+.icon-map-marker:before {
+  content: "\e801";
+}
+.icon-check:before {
+  content: "\e802";
+}
+.icon-angle-down:before {
+  content: "\e803";
+}
+.icon-angle-up:before {
+  content: "\e804";
+}
+.icon-angle-right:before {
+  content: "\e805";
+}
+.icon-angle-left:before {
+  content: "\e806";
+}
+.icon-sort:before {
+  content: "\e807";
+}
+.icon-arrow-right:before {
+  content: "\e901";
+}
+.icon-beatport:before {
+  content: "\e904";
+}
+.icon-tent:before {
+  content: "\e905";
+}
+.icon-t-shirt:before {
+  content: "\e906";
+}
+.icon-spotify:before {
+  content: "\e907";
+}
+.icon-calendar:before {
+  content: "\e908";
+}

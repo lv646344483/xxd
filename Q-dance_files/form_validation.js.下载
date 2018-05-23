@@ -1,0 +1,124 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function submitForm(form) {    
+    // Validate form
+    validateForm(form);
+    // Prevent form from submitting
+    return false;
+}
+
+function validateForm(form) {
+    var rules = setRules(form);
+    var errors = [];
+    
+    // Loop through input fields of form
+    $("form[name="+form+"] input[type=text], form[name="+form+"] input[type=email], form[name="+form+"] input[type=password], form[name="+form+"] input[type=date], form[name="+form+"] input[type=number]").each(function() {
+        field = rules[this.name];
+        
+        switch(field) {
+            case "required":
+                if(this.value == '') errors[this.name] = ucFirst(this.name)+' is a required field';
+                break;
+            case "valid-email":
+                if(this.value == '') {
+                    errors[this.name] = ucFirst(this.name)+' is a required field';
+                } else {
+                    if(validateEmail(this.value) == false) {
+                        errors[this.name] = 'Enter a valid e-mail adress';
+                    }
+                }
+                break;
+            case "min":
+                if(this.value.length < rules['min']) {
+                    errors[this.name] = 'Enter at least '+rules["min"]+' characters';
+                }
+                break;
+            case "password":
+                if(this.value.length < rules['min']) {
+                    errors[this.name] = 'Enter at least '+rules["min"]+' characters';
+                } else {
+                    if(this.value != $("input[name=password]").val() ) {
+                        errors[this.name] = 'Repeat your password';
+                    }
+                }
+                
+                break;
+            default:
+                if(field != '') {
+                    errors[this.name] = 'Enter at least '+rules["min"]+' characters';
+                } else {
+                    if(this.value != $("input[name='"+field+"']")) {
+                        errors[this.name] = 'Repeat your password';
+                    }
+                }
+                break;
+        }
+    });
+    
+    // Display errors in form
+    displayErrors(errors, form);
+}
+
+function setRules(form) {
+    loginRules = {
+        username        : 'required',
+        password        : 'required',
+    };
+    
+    signupRules = {
+        username        : 'required',
+        email           : 'valid-email',
+        password        : 'min',
+        'check-password': 'password',
+        min             : 8,
+    };
+    
+    forgotRules = {
+        email  : 'valid-email',
+    };
+    
+    switch(form) {
+        case 'login':
+            return loginRules;
+        case 'signup':
+            return signupRules;
+        case 'forgotpassword':
+            return forgotRules;
+        default:
+            return loginRules;
+    }
+}
+
+function displayErrors(errors, form) {    
+    for(var error in errors) {
+        $('.form-error').not('#error-'+error).stop().hide('blind');
+    }
+    
+    for(var error in errors) {
+        $('<div class="form-error" id="error-'+error+'"></div>').insertBefore('form[name='+form+']'+' .'+error);
+        $('#error-'+error).text(errors[error]).stop().show('blind');
+    }
+    
+    if(Object.keys(errors).length == 0) {
+       $("form[name='"+form+"']").attr('action', "/profile");
+       setTimeout(function(){
+           $("form[name='"+form+"']").submit();
+       }, 300);
+    }
+}
+
+function ucFirst(string) {
+    string = string.toLowerCase();
+    var first = string.substring(0, 1).toUpperCase();
+    string = string.substring(1, string.length);
+    return first+string;
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}

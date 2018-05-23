@@ -1,0 +1,11 @@
+.embed{
+    display: inline-block;
+    background: #fff;
+}
+.darkbar .menubar{
+    background-color: #000;
+}
+.item_content .item_description a,.popup_item_content a{
+    color: #f36c21;
+    font-weight: bold;
+}

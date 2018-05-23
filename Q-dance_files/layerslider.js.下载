@@ -1,0 +1,225 @@
+$(window).load(function() {
+//    console.log(getCookie('loader'));
+    if ($.cookie('loader') === "") {
+	$("#loader").append("<img src='assets/img/Q-dance_loader_licht.gif?"+new Date().getTime()+"' alt=''>");
+	$("#loader img").css('opacity', '0');
+	setTimeout(function(){
+	    $('#loader img').css('opacity', '1');
+	}, 500);
+	setTimeout(function(){
+	   $('#loader').addClass('finished');
+	   $('#loader img').fadeOut();
+	}, 500);
+//	createCookie('loader', '1', 1);
+	$.cookie("loader", "1", { expires: 1 });
+    } else {
+	$('#loader').addClass('finished');
+    }
+});
+
+$(document).ready(function() {
+    $('#loader').addClass('loaded');
+
+    initLayerSlider();
+    resizeHandler();
+
+   function initLayerSlider() {
+        $("#layerslider").layerSlider({
+//            responsive: true,
+	    hideOnMobile: true,
+            responsiveUnder: 0,
+            layersContainer: 0,
+            skin: 'v5',
+            hoverPrevNext: false,
+            navPrevNext:false,
+            showCircleTimer:true,
+            youtubePreview: 'maxresdefault.jpg',
+            keybNav: true,
+            touchNav: true,
+            autoPauseSlideshow: true,
+            autoPlayVideos: true,
+            navStartStop: true,
+            pauseOnHover: false,
+            skinsPath: '/lib/layerslider/skins/',
+            showBarTimer: false,
+	    thumbnailNavigation: 'disabled',
+            cbInit : function() {
+		$('.ls-slide').each(function() {
+		    var height = 0;
+		    $(this).children('.ls-content').each(function() {
+			if($(this).is("img")) {
+			    height += $( window ).innerHeight() * 0.50;
+			} else {
+			    height += $(this).outerHeight(true);
+			}
+		    });
+		    $(this).css("padding-top", (($( window ).innerHeight() - height) / 2) + "px");
+		});
+                resizeHandler();
+            },
+            cbAnimStart : function () {
+                $('.ls-active .ls-buttons').fadeOut(250);
+                setTimeout(function(){
+                    $('.ls-active .ls-buttons').fadeIn();
+                }, 150);
+            },
+            cbAnimStop : function () {
+                resizeHandler();
+            },
+            cbNext : function() {
+                resizeHandler();
+            }
+        });
+    }
+
+    $('#layerslider video').on('ended',function(){
+	this.currentTime = 0;
+	var data = $('#layerslider').layerSlider('data');
+	data.paused = false;
+	$(this).siblings(".ls-playvideo").removeClass('playing');
+	$(this).get(0).pause();
+	$('#layerslider').layerSlider('start');
+	$(".ls-mute").fadeOut(500);
+	setTimeout(function(){
+	    $(".ls-mute").css("display", "none");
+	}, 500);
+    });
+
+    $(window).resize(function(event){
+        var position = $(".ls-bottom-slidebuttons .ls-nav-active").offset();
+        $(".ls-circle-timer").css(position);
+    });
+
+    $('.ls-mute').click(function(){
+        if($(this).siblings("video").prop('muted')) {
+            $(this).siblings("video").prop('muted', false);
+            $(this).removeClass("muted");
+        } else {
+            $(this).siblings("video").prop('muted', true);
+            $(this).addClass("muted");
+        }
+    });
+
+    $('.ls-playvideo').click(function(){
+        $(".ls-mute").css("display", "block");
+        $(".ls-mute").css('opacity', 1);
+        var data = $('#layerslider').layerSlider('data');
+        if($(this).siblings("video").get(0).paused == true) {
+            data.paused = false;
+            $(this).addClass('playing');
+            $(this).siblings("video").get(0).play();
+            $('#layerslider').layerSlider('stop');
+        } else {
+            data.paused = true;
+            $(this).removeClass('playing');
+            $(this).siblings("video").get(0).pause();
+            $('#layerslider').layerSlider('start');
+        }
+    });
+
+    Modernizr.on('videoautoplay', function(result) {
+	if (result) {
+	    console.log('videoautoplay is supported');
+
+	      //Pause the slider initialy (and play the video);
+	      setTimeout(function(){
+		  $('.ls-playvideo').each( function () {
+		      var data = $('#layerslider').layerSlider('data');
+		      data.paused = false;
+		      $(this).addClass('playing');
+		      $(this).siblings("video").prop('muted', true); //mute
+		      $(this).siblings("video").get(0).play();
+
+		      $('#layerslider').layerSlider('stop');
+		      setTimeout(function(){
+		      $(".ls-mute").css("display", "block");
+
+		      $(".ls-mute").css("opacity", 1);
+		      $(".ls-mute").addClass("muted");
+		      },1500);
+		  });
+	      }, 600);
+	  // supported
+	} else {
+	  // not-supported
+	    console.log('videoautoplay is NOT supported');
+	}
+
+        $('video.ls-bg').bind('timeupdate', function() {
+            if (this.readyState === 4){
+                var r = this.currentTime;
+                var total = this.duration;
+                renderProgress((r/total)*100);
+            }
+        });
+    });
+
+    function renderProgress(progress) {
+	progress = Math.floor(progress);
+	if(progress<25){
+	    var angle = -90 + (progress/100)*360;
+	    $(".animate-0-25-b").css("transform","rotate("+angle+"deg)");
+	    $(".animate-0-25-b").css("-webkit-transform","rotate("+angle+"deg)");
+	    $(".animate-25-50-b, .animate-50-75-b, .animate-75-100-b").css("transform","rotate(90deg)");
+	    $(".animate-25-50-b, .animate-50-75-b, .animate-75-100-b").css("-webkit-transform","rotate(90deg)");
+	}
+	else if(progress>=25 && progress<50){
+	    var angle = -90 + ((progress-25)/100)*360;
+	    $(".animate-0-25-b").css("transform","rotate(0deg)");
+	    $(".animate-0-25-b").css("-webkit-transform","rotate(0deg)");
+	    $(".animate-25-50-b").css("transform","rotate("+angle+"deg)");
+	    $(".animate-25-50-b").css("-webkit-transform","rotate("+angle+"deg)");
+	}
+	else if(progress>=50 && progress<75){
+	    var angle = -90 + ((progress-50)/100)*360;
+	    $(".animate-25-50-b, .animate-0-25-b").css("transform","rotate(0deg)");
+	    $(".animate-25-50-b, .animate-0-25-b").css("-webkit-transform","rotate(0deg)");
+	    $(".animate-50-75-b").css("transform","rotate("+angle+"deg)");
+	    $(".animate-50-75-b").css("-webkit-transform","rotate("+angle+"deg)");
+	}
+	else if(progress>=75 && progress<=100){
+	    var angle = -90 + ((progress-75)/100)*360;
+	    $(".animate-50-75-b, .animate-25-50-b, .animate-0-25-b")
+						  .css("transform","rotate(0deg)");
+	    $(".animate-50-75-b, .animate-25-50-b, .animate-0-25-b")
+						  .css("-webkit-transform","rotate(0deg)");
+	    $(".animate-75-100-b").css("transform","rotate("+angle+"deg)");
+	    $(".animate-75-100-b").css("-webkit-transform","rotate("+angle+"deg)");
+	}
+    }
+    $("#layerslider").height( $(window).height() - 81);
+});
+
+function resizeHandler() {
+//    $("#layerslider").height( $(window).height() );
+    $(".ls-circle-timer").fadeOut(100);
+    setTimeout(function(){
+        $(".ls-circle-timer").fadeIn(100);
+        var position = $(".ls-bottom-slidebuttons .ls-nav-active").offset();
+        if(position != undefined) $(".ls-circle-timer").css(position);
+    }, 100);
+}
+
+/*
+    var paddingTop = 90;
+
+    var width = $(document).width();
+    if (width < 768) {
+        paddingTop = 50;
+    }
+        var height = $("#layerslider").height();
+        var top1 = Math.round(0.53603505*(height))+paddingTop;
+        var top2 = height-Math.round(0.53603505*(height));//Math.round(0.38*height);
+
+        $("#header").css("height",top1+"px");
+        $(".ls-bottom-nav-wrapper").css("bottom",top2+"px");
+
+    $("#background img.slide-image").css("width",width+"px");
+    $("#background img.slide-image").css("height","auto");
+    $("#background img.slide-image").css("margin-left",(-Math.floor(width/2))+"px");
+
+    if (($("#home-container").hasClass("citypage")) && (afterInitCityPage)) {
+        $("body").css("top","0px");
+        $("#topheader").css("top","0px");
+    }
+*/

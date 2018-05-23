@@ -1,0 +1,560 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 15-sep-2015, 8:46:54
+    Author     : ramon
+*/
+.margintop {
+  margin-top: 70px;
+}
+.marginbottom {
+  margin-botom: 100px;
+}
+.marginright {
+  margin-right: 30px;
+}
+.marginleft {
+  margin-left: 30px;
+}
+.extraColor {
+  color: #f36c21;
+}
+/*---------------------------------------------------
+    LESS Elements 0.9
+  ---------------------------------------------------
+    A set of useful LESS mixins
+    More info at: http://lesselements.com
+  ---------------------------------------------------*/
+.hw {
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.light .events_spotlight .spotlight_right h3 {
+  color: #000000;
+}
+.light .events_spotlight .spotlight_right .subtitle {
+  color: #000000;
+}
+.light .events_spotlight .spotlight_right .button:not(.ticket) {
+  color: #000000;
+  border-color: #000000;
+}
+.light .events_spotlight .spotlight_right .button:not(.ticket):hover {
+  background: #000000;
+  color: #ffffff;
+}
+.light .events_item .item_title h3 {
+  color: #000000;
+}
+.light .events_item .item_title .subtitle {
+  color: #000000;
+}
+.light .events_item .button:not(.ticket) {
+  color: #000000;
+  border-color: #000000;
+}
+.light .events_item .button:not(.ticket):hover {
+  background: #000000;
+  color: #ffffff;
+}
+.dark .events_spotlight .spotlight_right h3 {
+  color: #ffffff;
+}
+.dark .events_spotlight .spotlight_right .subtitle {
+  color: #7f7f7f;
+}
+.dark .events_spotlight .spotlight_right .button:not(.ticket) {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.dark .events_spotlight .spotlight_right .button:not(.ticket):hover {
+  background: #ffffff;
+  color: #000000;
+}
+.dark .events_item .item_title h3 {
+  color: #ffffff;
+}
+.dark .events_item .item_title .subtitle {
+  color: #7f7f7f;
+}
+.dark .events_item .button:not(.ticket) {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.dark .events_item .button:not(.ticket):hover {
+  background: #ffffff;
+  color: #000000;
+}
+.events_spotlight {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 30px;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+.events_spotlight .spotlight_left {
+  width: 49%;
+  margin-right: 2%;
+  float: left;
+  height: 230px;
+  background-size: cover;
+  background-position: center;
+}
+.events_spotlight .spotlight_right {
+  width: 49%;
+  float: left;
+  padding-top: 72px;
+}
+.events_spotlight .spotlight_right h3 {
+  margin: 0px;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 100%;
+  text-transform: uppercase;
+}
+.events_spotlight .spotlight_right .subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 20px 0;
+  line-height: 120%;
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.events_spotlight .spotlight_right .subtitle .date,
+.events_spotlight .spotlight_right .subtitle .location {
+  display: table-row;
+}
+.events_spotlight .spotlight_right .subtitle .date .hilight,
+.events_spotlight .spotlight_right .subtitle .location .hilight {
+  color: #f36c21;
+  display: table-cell;
+  padding-right: 5px;
+  vertical-align: top;
+}
+.events_spotlight .spotlight_right .subtitle .date .datelocation,
+.events_spotlight .spotlight_right .subtitle .location .datelocation {
+  display: table-cell;
+}
+.events_spotlight .spotlight_right .small_divider {
+  display: none;
+}
+.events_spotlight .spotlight_right .spotlight_buttons {
+  padding-top: 5px;
+  height: 50px;
+  overflow: hidden;
+}
+.events_spotlight .spotlight_right .spotlight_buttons .button {
+  position: relative;
+  bottom: 70px;
+}
+.events_spotlight .spotlight_right .spotlight_buttons .button.calendar {
+  display: none;
+}
+.events_items_container {
+  clear: all;
+}
+.events_items_container .item_row {
+  font-size: 0;
+}
+.events_item {
+  width: 25%;
+  position: relative;
+  top: 600px;
+  opacity: 0;
+  display: inline-block;
+  font-size: 14px;
+  box-sizing: border-box;
+  vertical-align: top;
+  padding: 0 15px;
+}
+.events_item .item_title {
+  position: relative;
+}
+.events_item .item_title .title_container {
+  height: 52px;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.events_item .item_title .title_container h3 {
+  margin: 0px;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 100%;
+  text-transform: uppercase;
+}
+.events_item .item_title .subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 20px 0;
+  line-height: 16px;
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.events_item .item_title .subtitle .location {
+  height: 32px;
+}
+.events_item .item_title .subtitle .date,
+.events_item .item_title .subtitle .location {
+  display: table-row;
+}
+.events_item .item_title .subtitle .date .hilight,
+.events_item .item_title .subtitle .location .hilight {
+  color: #f36c21;
+  display: table-cell;
+  padding-right: 5px;
+  vertical-align: top;
+}
+.events_item .item_title .subtitle .date .datelocation,
+.events_item .item_title .subtitle .location .datelocation {
+  max-height: 32px;
+  overflow: hidden;
+  vertical-align: top;
+}
+.events_item .item_image {
+  position: relative;
+  margin-bottom: 20px;
+  height: 230px;
+  background-size: cover;
+  background-position: center;
+  /*height:@whatsupItemHeight;*/
+  height: auto;
+  padding-bottom: 65%;
+}
+.events_item .button {
+  box-sizing: border-box;
+  padding: 0 20px;
+  margin-bottom: 5px;
+  width: 49%;
+}
+.events_item .button.lineup,
+.events_item .button.calendar {
+  display: none;
+}
+.events_item .button.preregister {
+  padding: 0 40px;
+}
+.events_item .button.ticket.soldout.change_text_on_hover,
+.events_item .button.preregister.soldout.change_text_on_hover {
+  width: 49%;
+}
+.qdance_events .open.events_spotlight .banner {
+  right: 0;
+}
+.qdance_events .open.events_spotlight .spotlight_left,
+.qdance_events .open.events_spotlight .spotlight_right {
+  left: 0;
+}
+.qdance_events .open.events_spotlight .spotlight_buttons .button {
+  animation: spotlightButtons 0.8s ease-out forwards;
+  -webkit-animation: spotlightButtons 0.8s ease-out forwards;
+}
+.qdance_events .open.events_spotlight .small_divider {
+  animation: spotlightDivider 1.08s ease-out forwards;
+  -webkit-animation: spotlightDivider 1.08s ease-out forwards;
+}
+.qdance_events .open.item_row .events_item:first-child {
+  animation: eventsItem 0.4s ease-out forwards;
+  -webkit-animation: eventsItem 0.4s ease-out forwards;
+}
+.qdance_events .open.item_row .events_item:nth-child(2) {
+  animation: eventsItem 0.6s ease-out forwards;
+  -webkit-animation: eventsItem 0.6s ease-out forwards;
+}
+.qdance_events .open.item_row .events_item:nth-child(3) {
+  animation: eventsItem 0.8s ease-out forwards;
+  -webkit-animation: eventsItem 0.8s ease-out forwards;
+}
+.qdance_events .open.item_row .events_item:nth-child(4) {
+  animation: eventsItem 1s ease-out forwards;
+  -webkit-animation: eventsItem 1s ease-out forwards;
+}
+@-webkit-keyframes spotlightButtons {
+  0% {
+    bottom: 92px;
+  }
+  35% {
+    bottom: 92px;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+@keyframes spotlightButtons {
+  0% {
+    bottom: 92px;
+  }
+  35% {
+    bottom: 92px;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+@-webkit-keyframes spotlightDivider {
+  0% {
+    width: 80%;
+  }
+  60% {
+    width: 80%;
+  }
+  100% {
+    width: 50px;
+  }
+}
+@keyframes spotlightDivider {
+  0% {
+    width: 80%;
+  }
+  60% {
+    width: 80%;
+  }
+  100% {
+    width: 50px;
+  }
+}
+@-webkit-keyframes eventsItem {
+  0% {
+    top: 600px;
+    opacity: 0;
+  }
+  30% {
+    top: 600px;
+    opacity: 0;
+  }
+  60% {
+    top: 100px;
+    opacity: 0.5;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes eventsItem {
+  0% {
+    top: 600px;
+    opacity: 0;
+  }
+  30% {
+    top: 600px;
+    opacity: 0;
+  }
+  60% {
+    top: 100px;
+    opacity: 0.5;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 1410px) {
+  .events_spotlight .spotlight_right .small_divider {
+    width: 100%;
+  }
+  .events_spotlight .spotlight_right .spotlight_buttons {
+    padding-top: 14px;
+    height: 125px;
+  }
+  .events_spotlight .spotlight_right .spotlight_buttons .button {
+    width: 30%;
+    bottom: 139px;
+    margin-bottom: 5px;
+  }
+  .events_item .button {
+    width: 100%;
+    padding: 0;
+  }
+  .events_item .button:not(:first-child) {
+    margin-top: 5px;
+  }
+  .events_item .button.preregister {
+    padding: 0 32px;
+  }
+  @-webkit-keyframes spotlightButtons {
+    0% {
+      bottom: 108px;
+    }
+    35% {
+      bottom: 108px;
+    }
+    100% {
+      bottom: 0;
+    }
+  }
+  @keyframes spotlightButtons {
+    0% {
+      bottom: 108px;
+    }
+    35% {
+      bottom: 108px;
+    }
+    100% {
+      bottom: 0;
+    }
+  }
+}
+@media screen and (min-width: 1024px) {
+  .qdance_events .open.events_spotlight .banner p {
+    padding-left: 4%;
+  }
+  .events_items_container .item_row {
+    margin-top: 30px;
+  }
+  .events_items_container .item_row:first-child {
+    margin-top: 0;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .qdance_events .open.events_spotlight .banner {
+    left: 0;
+    padding-left: 36px;
+    width: 0;
+  }
+  .qdance_events .open.events_spotlight .banner p {
+    display: none;
+  }
+  .events_spotlight {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    margin-bottom: 22px;
+  }
+  .events_spotlight .banner {
+    width: 100%;
+    padding-left: 0;
+    right: -100%;
+  }
+  .events_spotlight .banner p {
+    margin-left: 36px;
+  }
+  .events_spotlight .spotlight_left {
+    width: 100%;
+    margin-right: 0px;
+    left: -100%;
+  }
+  .events_spotlight .spotlight_right {
+    width: 100%;
+    left: 100%;
+    padding-top: 22px;
+  }
+  .events_spotlight .spotlight_right h3 {
+    margin: 0px;
+    font-size: 24px;
+  }
+  .events_spotlight .spotlight_right .subtitle {
+    margin: 14px 0;
+  }
+  .events_spotlight .spotlight_right .small_divider {
+    width: 100%;
+  }
+  .events_spotlight .spotlight_right .spotlight_buttons {
+    padding-top: 14px;
+    height: 125px;
+  }
+  .events_spotlight .spotlight_right .spotlight_buttons .button {
+    width: 35%;
+    bottom: 139px;
+    margin-bottom: 5px;
+  }
+  .events_item {
+    top: 420px;
+    padding-right: 22px;
+    width: 50%;
+    margin-bottom: 22px;
+    opacity: 1;
+  }
+  .events_item .item_title .title_container {
+    height: 48px;
+  }
+  .events_item .item_title .title_container h3 {
+    font-size: 24px;
+  }
+  .events_item .item_title .subtitle {
+    margin: 14px 0;
+  }
+  .events_item .item_image {
+    margin-bottom: 14px;
+  }
+  .events_item .button {
+    box-sizing: border-box;
+    padding: 0 14px;
+    width: 49%;
+  }
+  .events_item .button:not(:first-child) {
+    margin-top: 5px;
+  }
+  .events_item:nth-child(odd) {
+    padding-left: 0;
+  }
+  .events_item:nth-child(even) {
+    padding-right: 0;
+  }
+  @-webkit-keyframes eventsItem {
+    0% {
+      top: 420px;
+      opacity: 0;
+    }
+    30% {
+      top: 420px;
+      opacity: 0;
+    }
+    60% {
+      top: 70px;
+      opacity: 0.5;
+    }
+    100% {
+      top: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes eventsItem {
+    0% {
+      top: 420px;
+      opacity: 0;
+    }
+    30% {
+      top: 420px;
+      opacity: 0;
+    }
+    60% {
+      top: 70px;
+      opacity: 0.5;
+    }
+    100% {
+      top: 0;
+      opacity: 1;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .events_spotlight .spotlight_right .spotlight_buttons {
+    height: auto;
+  }
+  .events_spotlight .spotlight_right .spotlight_buttons .button {
+    width: 45%;
+  }
+  .events_item {
+    width: 100%;
+    padding: 0;
+  }
+  .events_item .item_title .button {
+    width: 45%;
+  }
+  .pagewidth:not(.eventsoverview) .events_item:nth-child(3),
+  .pagewidth:not(.eventsoverview) .events_item:nth-child(4) {
+    display: none;
+  }
+}
+/*# sourceMappingURL=events.css.map */

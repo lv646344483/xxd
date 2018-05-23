@@ -1,0 +1,25 @@
+$( "form[name='newsletter_signup'] [type='submit']" ).on( "click", function() {
+    var title = $(this).data('popup-title');
+    var message = "";
+    $.ajax({
+        type: "POST",
+        url: $( "form[name='newsletter_signup']").attr('action'),
+        data: {
+            '_token': $('meta[name=csrf-token]').attr('content'),
+            'email': $( "form[name='newsletter_signup'] input[name='email']" ).val()
+        }
+    })
+        .done(function( json ) {
+            if(typeof json.success !== "undefined" && json.success === true) {
+                message = $("form[name='newsletter_signup'] [type='submit']").data('popup-success');
+                $( "form[name='newsletter_signup'] input[name='email']" ).val('')
+            }
+            else
+            {
+                message = $("form[name='newsletter_signup'] [type='submit']").data('popup-error');
+            }
+
+            openPopup('newsletter', title, message);
+        });
+    return false;
+});

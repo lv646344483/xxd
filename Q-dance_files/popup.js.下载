@@ -1,0 +1,54 @@
+function openPopup(type, title, description) {
+    // Set titleBlock
+    var titleBlock = '<div class="title"><h2 class="title_left">';
+    if ($.inArray(type, ['preregister', 'login']) !== -1) {
+        title = 'Log in <span class="smaller">or <span class="link" onclick="$(\'.popup_close\').trigger(\'click\');setTimeout(function(){openPopup(\'signup\');}, 400);">sign up</span>';
+    }
+    if ($.inArray(type, ['signup']) !== -1) {
+        title = 'Sign up <span class="smaller">or <span class="link" onclick="$(\'.popup_close\').trigger(\'click\');setTimeout(function(){openPopup(\'login\');}, 400);">log in</span>';
+    }
+    titleBlock += title;
+    if (type ==='buytickets') {
+	titleBlock += "<span class='viagogo'><img src='assets/img/viagogo.png' alt='ViaGoGo' /></span>";
+    }
+    titleBlock += '</h2></div>';
+
+    // Set body
+    var bodyBlock = '<div class="popup_description">';
+    if ($.inArray(type, ['buytickets' ,'preregister', 'login', 'signup', 'newsletter', 'submitphoto', 'forgotpassword', 'profilepicture', 'successful']) !== -1) {
+	if (type !== 'login' && description !== undefined) {
+	    bodyBlock += '<p>'+description+'</p>';
+	}
+	if (type === 'preregister') {
+	    type = 'login';
+	}
+    }
+    bodyBlock  += '</div>';
+
+    // Standard elements + titleBlock + bodyBlock
+    $('body').append('<div class="popup"><div class="popup_screen"><div class="blackback"></div><div class="inner"><div class="popup_close"><span class="icon icon-close"></span></div>' + titleBlock + bodyBlock + '</div></div></div>');
+    
+    // Popup functions
+    setTimeout(function() {
+        $('.popup').addClass("open");
+    }, 50);
+    setTimeout(function() {
+        $('.popup .title').addClass("open");
+    }, 400);
+    
+    // Close popup
+    $('.popup_close, .blackback').on("click", closePopup);
+    $(document).keydown(function(e) {
+        if (e.keyCode == 27) {
+            closePopup();
+        }
+    });
+}
+
+function closePopup() {
+    $(this).closest(".popup").addClass("closed");
+    $(this).closest(".popup").removeClass("open");
+    setTimeout(function() {
+        $('.popup').remove();
+    }, 400);
+}

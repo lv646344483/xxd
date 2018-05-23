@@ -1,0 +1,464 @@
+var headerInView = true;
+var menuclosed = false;
+//$(window).load(function(){
+//    $('#loader').addClass('loaded');
+//});
+//
+//$('a').on("click", function (e) {
+//        if(($(this).attr('href') != "undefined") && ($(this).attr('href') != "#") && ($(this).attr('target') != "_blank")){
+//        e.preventDefault();
+//        $('#loader').removeClass('loaded');
+//        var href = $(this).attr('href');
+//        setTimeout(function(){
+//            location.href = href;
+//        }, 100);
+//    }
+//});
+function addToCalendar() {
+    (function () {
+	if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+	if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+	    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+	    s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+	    s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+	    var h = d[g]('body')[0];h.appendChild(s); }})();
+}
+$( document ).ready(function() {
+    addToCalendar();
+//    $("#loader").append("<img src='assets/img/Q-dance_loader_licht.gif?"+new Date().getTime()+"' alt=''>");
+//    $("#loader img").css('opacity', '0');
+//    setTimeout(function(){
+//	$('#loader img').css('opacity', '1');
+//    }, 200);
+//    setTimeout(function(){
+//       $('#loader').addClass('finished');
+//       $('#loader img').fadeOut();
+//    }, 200);
+
+    $(document).on({
+	mouseenter: function () {
+	    txt_text = $(this).data('text-hover');
+	    txt = $(this).children("p");
+	    txt.fadeOut(100, function() {
+		txt.html(txt_text);
+		txt.fadeIn();
+	    });
+	},
+	mouseleave: function () {
+	    txt_text = $(this).data('text-original');
+	    txt = $(this).children("p");
+	    txt.stop(true,false).fadeOut(100, function() {
+		txt.html(txt_text);
+		txt.fadeIn();
+	    });
+	}
+    }, '.change_text_on_hover');
+
+    // Open SEO link in a POPUP
+    $(document).on("click", "a.popuplink", function (e) {
+	if ($(this).hasClass('video')) {
+	    openVideoPopup($(this).data('video'), $(this).data('site'));
+	} else {
+	    showWhatsupPopup($(this).data('url'));
+	}
+	preventDefaultAction(e);
+    });
+
+    $('select').each(function() {
+        if(!$(this).hasClasses(['footerselect_region'])) {
+            settings = [];
+            settings['minimumResultsForSearch'] = 'Infinity';
+            settings['dropdownCssClass'] = $(this).data('class');
+            if($(this).data('placeholder')) {
+		settings['placeholder'] = $(this).data('placeholder');
+            }
+            $(this).select2(settings);
+        }
+    });
+
+    $('.footerselect_region').select2({
+	minimumResultsForSearch: Infinity,
+	dropdownCssClass: 'footerselect_region'
+    });
+//    $('.regionFilter').select2({
+//	minimumResultsForSearch: Infinity,
+//        placeholder: "Region",
+//	dropdownCssClass: 'photoFilter'
+//    }).on("select2:open", function(e) {
+//	$('.regionspanel').addClass('opened');
+//    })
+//    .on("select2:close", function(e) {
+//	$('.regionspanel').removeClass('opened');
+//    })
+//    .on("select2:select", function(e) {
+//	$('.regionsbutton .label').text($(this).val());
+//    });
+//
+//    $('.countryFilter').select2({
+//	minimumResultsForSearch: Infinity,
+//        placeholder: "Country",
+//	dropdownCssClass: 'photoFilter'
+//    }).on("select2:open", function(e) {
+//	$('.regionspanel').addClass('opened');
+//    })
+//    .on("select2:close", function(e) {
+//	$('.regionspanel').removeClass('opened');
+//    })
+//    .on("select2:select", function(e) {
+//	$('.regionsbutton .label').text($(this).val());
+//    });
+
+    $('.gender.half').next().addClass("half");
+
+    var socialAmounts;
+    if (typeof FACEBOOK_FRIENDS === 'undefined' || typeof INSTAGRAM_FOLLOWERS === 'undefined' || typeof TWITTER_FOLLOWERS === 'undefined' || typeof YOUTUBE_SUBSCRIBERS === 'undefined') {
+        socialAmounts = [0, 0, 0, 0];
+    }
+    else {
+        socialAmounts = [FACEBOOK_FRIENDS, INSTAGRAM_FOLLOWERS, TWITTER_FOLLOWERS, YOUTUBE_SUBSCRIBERS];
+    }
+
+    $('.title, .whatsup_spotlight, .events_spotlight, .item_row, .social_count, .grid_block, .tickets_item, .events_item, .whatsup, .ambassadors').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+	if (isInView) {
+	    $(this).addClass("open");
+	    if($(this).hasClass("social_count")) {
+		$(this).find('.social_amount').find("span").html( socialAmounts[$(this).index()].toString().slice(0,-3));
+	    }
+	}
+    });
+
+    $('#header').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+	if (isInView)  {
+	    headerInView = false;
+	    if ($(window).width() > 1410) {
+		$('.menubar').css({"left": 'auto', "opacity": ""});
+		$('.eventsbar').css("height", '');
+	    }
+        } else {
+	    headerInView = true;
+	    if ($(window).width() > 1410) {
+		if(menuclosed == true) {
+		    $('.menubar').css({"left": '-100%', "opacity": 0});
+		    $('.eventsbar').css("height", '0px');
+		} else {
+		    $('.menubar').css({"left": '0px', "opacity": 1});
+		    $('.eventsbar').css("height", '85px');
+		}
+	    }
+	}
+    });
+
+    $(".title_container, .dotdotdot, .block_item.article_preview > h3").dotdotdot({
+	ellipsis	: '... ',   /* The text to add as ellipsis. */
+	wrap		: 'word',   /* How to cut off the text/html: 'word'/'letter'/'children' */
+	fallbackToLetter: true,	    /* Wrap-option fallback to 'letter' for long words */
+	after		: null,     /* jQuery-selector for the element to keep and put after the ellipsis. */
+	watch		: window,   /* Whether to update the ellipsis: true/'window' */
+	height		: null,     /* Optionally set a max-height, if null, the height will be measured. */
+	tolerance	: 1,	    /* Deviation for the height-option. */
+	/* Callback function that is fired after the ellipsis is added, receives two parameters: isTruncated(boolean), orgContent(string). */
+	callback	: function( isTruncated, orgContent ) {},
+	lastCharacter	: {
+	    /*	Remove these characters from the end of the truncated text. */
+	    remove		: [ ' ', ',', ';', '.', '!', '?' ],
+	    /*	Don't add an ellipsis if this array contains the last character of the truncated text. */
+	    noEllipsis	: []
+	}
+    });
+    var toBig = false;
+    if ($(window).width() <= 1410) {
+	menuclosed = true;
+	$('.menuicon').addClass("closed");
+        toBig = true;
+    }
+
+    $( window ).resize(function() {
+        if ($(window).width() <= 1410) {
+            menuclosed = true;
+            $('.menuicon').addClass("closed");
+            toBig = true;
+        } else {
+            if(toBig == true) {
+                toBig = false;
+                menuclosed = false;
+                $('.menuicon').removeClass("closed");
+            }
+        }
+	$('.videopopup iframe').css({ width: $(window).innerWidth() + 'px', height: $(window).innerHeight() + 'px' });
+	$('.whatsup_popup .popup_item_content iframe').each(function(i) {
+	    var width = $('.whatsup_popup .popup_item_content').width();
+	    var iframeWidth = $(this).width();
+	    $(this).width(width);
+	    $(this).height(width/iframeWidth * $(this).height());
+	});
+    });
+
+    $(".whatsup_popup .popup_wrapper, .whatsup_popup .popup_close").on("click", function() {
+	closeWhatsupPopup();
+    });
+
+    $(".menuicon").on("click", function() {
+	if ($(window).width() <= 1410) {
+	    if(menuclosed == true) {
+		menuclosed = false;
+		$('.headerbar').addClass("active");
+		$(this).removeClass("closed");
+	    } else {
+		menuclosed = true;
+		$('.headerbar').removeClass("active");
+	    }
+	}
+    });
+
+    var lastScrollTop = 0;
+    var countScrollDown = 0;
+    $(window).scroll(function(event){
+	if ($(window).width() > 1410) {
+	    var st = $(this).scrollTop();
+	    if($(".headerbar").hasClass("scrolled")) {
+		countScrollDown++;
+		if (st > lastScrollTop){
+		    if(countScrollDown >= 3) {
+			$('.eventsbar').css("height", '0px');
+		    }
+		} else {
+		    countScrollDown = 0;
+		    if(menuclosed == false) {
+			$('.eventsbar').css("height", '85px');
+		    }
+		}
+	    }
+	    lastScrollTop = st;
+	}
+    });
+
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return results[1] || 0;
+        }
+    };
+
+    if($.urlParam('news')) {
+        $(".whatsup_popup .popup_wrapper").css("top", $(document).scrollTop()+"px");
+        $(".whatsup_popup").addClass("open");
+    }
+
+    // Navigation with arrow keys
+    $(document).keydown(function(e) {
+	if ($(".whatsup_popup").hasClass("open")) {
+	    switch (e.keyCode) {
+		case 27: closeWhatsupPopup(); break;
+		case 37: showWhatsupPopup_prev(); break;
+		case 39: showWhatsupPopup_next(); break;
+	    }
+	}
+    });
+});
+
+/**
+ * Prevent the default action from executing...
+ * @param {event} event
+ * @returns {Boolean}
+ */
+function preventDefaultAction(event) {
+    if (event) {
+	if (typeof event.preventDefault != 'undefined') {
+	    event.preventDefault(); // W3C
+	} else {
+	    event.returnValue = false; // IE
+	}
+    }
+    // safey for handling DOM Level 0
+    return false;
+}
+
+/**
+ * Share an URL on Facebook
+ * share_info is a hash containing an image/url/text: {image:..url:..text:..}
+ * @param {Hash} share_info
+ * @returns {Boolean}
+ */
+function fbs_click(share_info) {
+//    console.log(share_info);
+    FB.ui (
+    {
+	method: 'feed',
+	name: share_info.text,
+	link: share_info.url,
+	picture: share_info.image,
+	caption: share_info.text,
+	description: share_info.text,
+	message: ''
+    });
+    return false;
+}
+
+/**
+ * Share an URL on Twitter
+ * share_info is a hash containing an image/url/text: {url:'',text:''}
+ * @param {Hash} share_info
+ * @returns {Boolean}
+ */
+function twitter_click(share_info) {
+    window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(share_info.text)+ ' '+encodeURIComponent(share_info.url), 'sharer', 'toolbar=0,status=0,width=626,height=436');
+    return false;
+}
+
+/**
+ * Open the video popup
+ * @param string video Video ID to open
+ * @param string site The site where the video is hosted
+ * @returns {undefined}
+ */
+function openVideoPopup(video, site) {
+    var bodyBlock = '';
+    bodyBlock += '<div class="videopopup">';
+    bodyBlock += '<div class="popup_wrapper">';
+    bodyBlock += '<div class="popup_close"><span class="icon icon-close"></span></div>';
+    bodyBlock += '<div class="video_container">';
+    var height = $(window).innerHeight();
+    var width = $(window).innerWidth();
+
+    if (site === 'youtube') {
+	bodyBlock += '<iframe id="video" src="https://www.youtube.com/embed/'+video+'/" width="'+width+'" height="'+height+'" frameborder="0" allowfullscreen></iframe>';
+    } else {
+	bodyBlock += '<iframe id="video" src="https://player.vimeo.com/video/'+video+'/?color=ffffff&title=0&byline=0&portrait=0&autoplay=1" width="'+width+'" height="'+height+'" frameborder="0"></iframe>';
+    }
+    bodyBlock += '</div>';
+    bodyBlock += '</div>';
+    bodyBlock += '</div>';
+
+    // Standard elements + titleBlock + bodyBlock
+    $('body').append(bodyBlock);
+    $('body').css('overflow', 'hidden');
+
+    // Popup functions
+    $('.videopopup').addClass("open");
+
+    $('.popup_close').on("click", function() {
+        $(this).closest(".videopopup").addClass("closed");
+        $(this).closest(".videopopup").removeClass("open");
+        setTimeout(function() {
+            $('.videopopup').remove();
+	    $('body').css('overflow', 'auto');
+        }, 200);
+    });
+}
+
+function showWhatsupPopup(ID) {
+    var index = 0;
+    for (var i=0;i<arr_Whatsup.length;i++) {
+        if (arr_Whatsup[i].ID == ID) index = i;
+    }
+    showWhatsupPopupDataByIndex(index);
+    $('body').addClass('overlayopen');
+}
+
+var currentWhatsupIndex = 0;
+function showWhatsupPopupDataByIndex(index) {
+    currentWhatsupIndex = index;
+
+    var prevID = index - 1;
+    if (prevID < 0) {
+	prevID = arr_Whatsup.length - 1;
+    }
+    var nextID = index + 1;
+    if (nextID > arr_Whatsup.length - 1) {
+	nextID = 0;
+    }
+
+    var data = arr_Whatsup[index];
+    var prevData = arr_Whatsup[prevID];
+    var nextData = arr_Whatsup[nextID];
+    $('div.whatsup_popup .popup_image .toolbar').removeClass('open');
+    $('div.whatsup_popup .name').html(data.title);
+    $('div.whatsup_popup .page_title .bottom').html(data.title);
+    $('div.whatsup_popup .postdate ').text(data.date);
+    $('div.whatsup_popup .popup_image img').attr('src',data.image);
+    $('div.whatsup_popup .popup_image .facebook_link').data({'image':'http://q-dance.interactiefbeleven.nl/'+data.image, 'text':data.title});
+    $('div.whatsup_popup .popup_image .twitter_link').data({'text':data.title});
+
+    $('div.whatsup_popup .popup_image .imgcontainer').css('background-image', 'url(' + data.image + ')');
+    if (data.uitgelicht) $("div.whatsup_popup .popup_image .uitgelicht").show();
+    else  $("div.whatsup_popup .popup_image .uitgelicht").hide();
+    var html = htmlDecode(data.html);
+    $('div.whatsup_popup .popup_item_content').html(html);
+    $("div.whatsup_popup").addClass("open");
+    $("div.whatsup_popup").fadeIn(500);
+    $("div.whatsup_popup .popup_wrapper").addClass("open");
+    $("div.whatsup_popup .next .name").html(nextData.title);
+    $("div.whatsup_popup .previous .name").html(prevData.title);
+    // change the iframe size if any are present
+    var width = $('div.whatsup_popup .popup_item_content').width();
+    $('div.whatsup_popup .popup_item_content iframe').each(function(i) {
+	var iframeWidth = $(this).width();
+	var iframeHeight = $(this).height();
+	$(this).width(width);
+	$(this).height(width/iframeWidth * iframeHeight);
+    });
+    setTimeout(function(){
+	$('div.whatsup_popup .popup_image .toolbar').addClass('open');
+    }, 600);
+}
+function showWhatsupPopup_prev() {
+    currentWhatsupIndex -= 1;
+    if (currentWhatsupIndex <0) currentWhatsupIndex = arr_Whatsup.length-1;
+    showWhatsupPopupDataByIndex(currentWhatsupIndex);
+}
+function showWhatsupPopup_next() {
+    currentWhatsupIndex += 1;
+    if (currentWhatsupIndex >= arr_Whatsup.length) currentWhatsupIndex = 0;
+    showWhatsupPopupDataByIndex(currentWhatsupIndex);
+}
+
+/**
+ * Close the WhatsUp popup
+ * @returns {undefined}
+ */
+function closeWhatsupPopup() {
+    $('body').removeClass('overlayopen');
+    $(".whatsup_popup .popup_wrapper").removeClass("open");
+    resetWhatsupPopup();
+    $(".whatsup_popup").fadeOut(500);
+}
+
+/**
+ * Empty the WhatsUp Popup
+ * @returns {undefined}
+ */
+function resetWhatsupPopup() {
+    $('div.whatsup_popup .name').html('');
+    $('div.whatsup_popup .page_title .bottom').html('');
+    $('div.whatsup_popup .postdate ').text('');
+    $('div.whatsup_popup .popup_image .imgcontainer').css('background-image', 'none');
+    $('div.whatsup_popup .popup_item_content').html('');
+    $('div.whatsup_popup .popup_image .facebook_link').data({'image':'', 'text':'', 'info':''});
+    $('div.whatsup_popup .popup_image .twitter_link').data({'text':''});
+    $("div.whatsup_popup .next .name").html('');
+    $("div.whatsup_popup .previous .name").html('');
+}
+
+function htmlDecode(value) {
+    var text = $('<div/>').html(value).text().match(/^"(.*)"$/)[1];
+    return text;
+}
+
+/**
+ * Check for multiple classes
+ * @param: selectors
+ * @returns {boolean}
+ */
+$.fn.extend({
+    hasClasses: function (selectors) {
+        var self = this;
+        for (var i in selectors) {
+            if ($(self).hasClass(selectors[i]))
+                return true;
+        }
+        return false;
+    }
+});
